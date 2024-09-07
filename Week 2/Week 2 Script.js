@@ -9,6 +9,13 @@ const legacyButton = document.getElementById("legacyCheckbox");
 
 calculateButton.addEventListener("click", ConvertUSDToYen);
 
+window.addEventListener("load", PopulateField);
+
+function PopulateField(){
+    document.getElementById('inputUSDBox').value = "0.00";
+}
+
+
 function ConvertUSDToYen(){
     let usd = parseFloat(document.getElementById('inputUSDBox').value);
     let success = true
