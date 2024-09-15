@@ -1,3 +1,5 @@
+"use strict";
+
 //Consts
 const GRIDSIZE = 3;
 
