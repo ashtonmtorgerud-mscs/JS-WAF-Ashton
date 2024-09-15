@@ -25,3 +25,5 @@ function ConvertUSDToYen(){
 
     success ? document.getElementById('Total').innerText = "Total: ¥" + Math.floor(usd) : document.getElementById('Total').innerText = "Please input a number";
 }
+
+l
