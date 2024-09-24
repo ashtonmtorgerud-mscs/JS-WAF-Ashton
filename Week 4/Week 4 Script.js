@@ -1,5 +1,11 @@
 "use strict";
 
+//Go to previous page
+function GoBack(){
+    history.back()
+}
+
+
 ///Event Listeners and Setup Initializers
 window.addEventListener('resize', UpdateDeviceAssumption);
 UpdateDeviceAssumption();
@@ -25,6 +31,7 @@ function UpdateDeviceAssumption() {
     let ww = window.innerWidth;
     document.getElementById("DeviceChecker").innerHTML = "a";
     let newText = "";
+    window.outer
     switch (true) {
         case (ww < 1): newText = "honestly I have no idea how you're doing this"; break;
         case (ww < 567): newText = "Is... is that a flipphone? ... Or a smartwatch?"; break;
