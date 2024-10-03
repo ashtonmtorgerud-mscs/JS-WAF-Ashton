@@ -52,6 +52,9 @@ function GetTheModal() {
         };
     }
 
+    let radioText = document.querySelector('input[name="frequencyRadio"]:checked');
+    document.getElementById('CelebrationTitle').innerHTML = "Congratulations " + gForm.elements[0].value + ", you are literally Ryan Gosling!";
+    document.getElementById('CelebrationMessage').innerHTML = "Because your favorite movie is " + gForm.elements[8].value + " and you feel like Ryan Gosling " + (radioText.value).toLowerCase() + ", you are literally Ryan Gosling.";
     let gModal = new bootstrap.Modal(document.getElementById('ConfirmModal'));
     gModal.show();
 }
