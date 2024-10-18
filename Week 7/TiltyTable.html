@@ -1,0 +1,158 @@
+<html lang="en">
+
+</html>
+
+<head>
+	<title>Week 11: State, Storage, Security</title>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Bootstrap CSS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="Week 7 Script.js" defer></script>
+	
+</head>
+
+<body>
+
+	<!-- Container for Hard Coded HTML -->
+	<div id="content" class="container">
+		<h1>Drag, Drop, and Roll</h1>
+		<div id="draggableBoxes">
+			<div class="box"></div>
+			Click to duplicate on Tilty Table
+		</div>
+		<div id="tiltyTable">Tilty Table</div>
+	</div>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+<style>
+	body {
+		margin: 1em;
+		padding: 1em;
+	}
+
+	#draggableBoxes {
+		margin: .5em .5em .5em .5em;
+		padding: .5em .5em .5em .5em;
+		border: thin blue dashed;
+		width: 100%;
+	}
+
+	#tiltyTable {
+		margin: .5em .5em .5em .5em;
+		padding: .5em .5em .5em .5em;
+		border: thick green solid;
+		width: 90%;
+		height: 200px;
+	}
+
+	.box {
+		background: firebrick;
+		border: thick red solid;
+		width: 3em;
+		height: 3em;
+		position: absolute;
+	}
+
+	#draggableBoxes>.box {
+		position: relative;
+	}
+</style>
+
+
+<script>
+	"use strict";
+	let tiltyTable = document.getElementById("tiltyTable");
+	let draggableBoxes = document.getElementsByClassName("box");
+
+	let zIndexCounter = 0;
+	let startingX, startingY;
+	let boxX, boxY;
+
+	if (window.DeviceOrientationEvent) {
+		window.addEventListener('deviceorientation', tilt, false);
+	}
+
+
+	draggableBoxes[0].onclick = function () {
+		// 1) finish this line: "let boxCopy = [clone of draggableBoxes]"
+		let boxCopy = document.getElementById("draggableBoxes").querySelector(".box").cloneNode(true);
+
+		// 2) finish this line: "[append boxCopy to the tilty table]"
+		document.getElementById("tiltyTable").append(boxCopy);
+
+		// 3) finish this line: "[event listener for pointerdown to run the grabBox function]"
+		boxCopy.addEventListener("pointerdown", grabBox);
+	}
+
+
+	function grabBox(e) {
+		startingX = e.clientX;
+		startingY = e.clientY;
+
+		e.target.style.touchAction = "none";
+		zIndexCounter++;
+		e.target.style.zIndex = zIndexCounter;
+
+		boxX = e.target.offsetLeft;
+		boxY = e.target.offsetTop;
+
+		e.target.addEventListener("pointermove", moveBox);
+		e.target.addEventListener("pointerup", dropBox);
+
+	}
+
+	function moveBox(e) {
+		let currentX = e.clientX
+		let currentY = e.clientY
+
+		let deltaX = currentX - startingX;
+		let deltaY = currentY - startingY;
+
+		console.log("Here it is");
+		// 4) finish 2 lines: "[set the position of the target]"
+		e.target.style.left = deltaX + boxX + "px";
+		e.target.style.top = deltaY + boxY + "px";
+	}
+
+	function dropBox(e) {
+		// 5) finish 2 lines: "[remove event listeners for pointermove and ponterup]"
+		e.target.removeEventListener("pointermove", moveBox);
+	}
+
+	// 6) add your own twist to the motion of tilting your phone. 
+	let lastBeta = 0;
+	let lastGamma = 0;
+	
+
+	function tilt(e) {
+		let diffBeta, diffGamma;
+		for (let i = 0; i < tiltyTable.children.length; i++) {
+			let elemRect = tiltyTable.children[i].getBoundingClientRect();
+			diffBeta = e.beta - lastBeta;
+			diffGamma = e.gamma - lastGamma;
+			tiltyTable.children[i].style.background = "hsl(" + (e.beta +180) + ", 80%, 80%)";
+			tiltyTable.children[i].style.borderColor = "hsl(" + (e.gamma) + ", 50%, 50%)";
+			tiltyTable.children[i].style.top = elemRect.top + diffBeta + "px";
+			tiltyTable.children[i].style.left = elemRect.left + diffGamma + "px";
+			
+		}
+		lastBeta = e.beta;
+		lastGamma = e.gamma;
+	}
+
+	// 7) screenshot or gif of the app running on your phone.
+	//     (or if your phone doesn't work, show the Chrome simulator)
+</script>
